@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import { getDictionary } from '../content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const t = getDictionary();
+const { title = t.meta.title, description = t.meta.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={t.meta.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#2B44D9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body class="min-h-dvh">
+    <a
+      href="#main"
+      class="sr-only-focusable fixed left-4 top-4 z-[100] rounded-full bg-ink px-5 py-3 font-semibold text-white"
+      style="--focus: var(--cobalt)"
+    >
+      {t.common.skipToContent}
+    </a>
+    <slot />
+    <script>
+      import { initReveal } from '../scripts/reveal';
+      initReveal();
+    </script>
+  </body>
+</html>

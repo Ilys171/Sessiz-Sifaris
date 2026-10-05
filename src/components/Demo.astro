@@ -1,0 +1,108 @@
+---
+import { getDictionary } from '../content';
+import { demoPrices } from '../content/demo-menu';
+import Icon from './Icon.astro';
+
+const t = getDictionary();
+const d = t.demo;
+const payload = JSON.stringify({ text: d, prices: demoPrices }).replace(/</g, '\\u003c');
+---
+
+<section id="demo" aria-labelledby="demo-title" class="on-cobalt section">
+  <div class="container-page grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
+    <div class="reveal lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+      <p class="eyebrow">{d.eyebrow}</p>
+      <h2 id="demo-title" class="h2 mt-3">{d.title}</h2>
+      <p class="lead mt-5">{d.lead}</p>
+
+      <p class="mt-6 flex items-start gap-3 rounded-2xl bg-lime p-4 font-semibold text-ink" id="demo-disclaimer">
+        <Icon name="info" class="mt-0.5 shrink-0" />
+        <span>{d.disclaimer}</span>
+      </p>
+
+      <fieldset class="mt-8">
+        <legend class="text-base font-semibold">{d.modeLabel}</legend>
+        <div class="mt-3 grid grid-cols-2 gap-1 rounded-full bg-cobalt-dark p-1.5">
+          <label class="mode-option">
+            <input type="radio" name="demo-mode" value="standard" class="peer sr-only" checked />
+            <span class="mode-pill"><Icon name="layers" size={20} />{d.modes.standard}</span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="demo-mode" value="voice" class="peer sr-only" />
+            <span class="mode-pill"><Icon name="mic" size={20} />{d.modes.voice}</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="mt-5" data-speak-wrap hidden>
+        <label class="flex min-h-11 cursor-pointer items-start gap-3">
+          <input type="checkbox" data-demo-speak class="mt-1 h-6 w-6 shrink-0 cursor-pointer accent-[var(--lime)]" aria-describedby="speak-hint" />
+          <span>
+            <span class="font-semibold">{d.speakLabel}</span>
+            <span id="speak-hint" class="block text-base text-white/85">{d.speakHint}</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="reveal flex justify-center">
+      <div class="w-full max-w-[24rem] rounded-[3rem] bg-ink p-3 shadow-[0_30px_60px_-20px_rgb(8_14_60/0.6)]">
+        <div
+          class="on-light relative flex min-h-[40rem] flex-col overflow-hidden rounded-[2.4rem] bg-surface"
+          role="region"
+          aria-label={d.phoneLabel}
+          aria-describedby="demo-disclaimer"
+        >
+          <div aria-hidden="true" class="flex justify-center pt-3">
+            <span class="h-6 w-28 rounded-full bg-ink"></span>
+          </div>
+          <div data-demo-root class="flex flex-1 flex-col">
+            <noscript>
+              <p class="p-6 text-muted">The interactive demo needs JavaScript. The steps are described in the “How it works” section above.</p>
+            </noscript>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-demo-live aria-live="polite" aria-atomic="true" class="sr-only"></div>
+  <script type="application/json" data-demo-content set:html={payload} />
+</section>
+
+<style>
+  .mode-option {
+    display: block;
+    cursor: pointer;
+  }
+  .mode-pill {
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.5rem 0.75rem;
+    font-weight: 650;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    transition: background-color 0.15s ease;
+  }
+  .mode-option:hover .mode-pill {
+    background: rgb(255 255 255 / 0.1);
+  }
+  .mode-option input:checked + .mode-pill {
+    background: #fff;
+    color: var(--cobalt-dark);
+  }
+  .mode-option input:focus-visible + .mode-pill {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  import { initDemo } from '../scripts/demo';
+  initDemo();
+</script>

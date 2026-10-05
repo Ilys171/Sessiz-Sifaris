@@ -1,0 +1,109 @@
+---
+import { getDictionary } from '../content';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Prefix for anchor links when rendered on a page other than home. */
+  base?: string;
+}
+const { base = '' } = Astro.props;
+const t = getDictionary();
+---
+
+<header class="sticky top-0 z-50 border-b border-border/80 bg-bg/90 backdrop-blur-md supports-[backdrop-filter]:bg-bg/80">
+  <div class="container-page flex h-[var(--header-h)] items-center justify-between gap-4">
+    <a href={`${base}#top`} class="flex min-h-11 items-center gap-2.5 rounded-lg text-ink no-underline" aria-label={t.common.homeLabel}>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect width="32" height="32" rx="8" fill="var(--cobalt)"></rect>
+        <rect x="7" y="7" width="7" height="7" rx="1.5" fill="#fff"></rect>
+        <rect x="18" y="7" width="7" height="7" rx="1.5" fill="#fff"></rect>
+        <rect x="7" y="18" width="7" height="7" rx="1.5" fill="#fff"></rect>
+        <rect x="18" y="18" width="7" height="7" rx="3.5" fill="var(--lime)"></rect>
+      </svg>
+      <span lang="az" class="text-lg font-bold tracking-tight">{t.common.productName}</span>
+    </a>
+
+    <nav aria-label={t.common.mainNav} class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          t.nav.map((item) => (
+            <li>
+              <a
+                href={`${base}${item.href}`}
+                class="inline-flex min-h-11 items-center rounded-full px-3.5 text-[1rem] font-medium text-ink no-underline transition-colors hover:bg-cobalt-tint hover:text-cobalt-dark"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={`${base}#restaurants`} class="btn btn-primary hidden sm:inline-flex">{t.common.runPilot}</a>
+      <button
+        type="button"
+        class="btn btn-secondary !px-3.5 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-menu-toggle
+      >
+        <span data-icon-open><Icon name="menu" /></span>
+        <span data-icon-close hidden><Icon name="close" /></span>
+        <span data-menu-label>{t.common.menu}</span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" aria-label={t.common.mainNav} class="border-t border-border bg-surface lg:hidden" hidden>
+    <ul class="container-page flex flex-col py-3">
+      {
+        t.nav.map((item) => (
+          <li>
+            <a
+              href={`${base}${item.href}`}
+              class="flex min-h-12 items-center rounded-xl px-3 text-lg font-medium text-ink no-underline hover:bg-cobalt-tint"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-3 pb-2">
+        <a href={`${base}#restaurants`} class="btn btn-primary w-full">{t.common.runPilot}</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script is:inline define:vars={{ menuLabel: t.common.menu, closeLabel: t.common.closeMenu }}>
+  (() => {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const panel = document.getElementById('mobile-nav');
+    if (!toggle || !panel) return;
+    const label = toggle.querySelector('[data-menu-label]');
+    const iconOpen = toggle.querySelector('[data-icon-open]');
+    const iconClose = toggle.querySelector('[data-icon-close]');
+
+    const setOpen = (open, returnFocus) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+      iconOpen.hidden = open;
+      iconClose.hidden = !open;
+      label.textContent = open ? closeLabel : menuLabel;
+      if (!open && returnFocus) toggle.focus();
+    };
+
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true', false));
+    panel.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setOpen(false, false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false, true);
+    });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false, false);
+    });
+  })();
+</script>

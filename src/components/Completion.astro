@@ -1,0 +1,48 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon, { type IconName } from './Icon.astro';
+
+const t = getDictionary();
+const c = t.completion;
+const icons: IconName[] = ['cart', 'card', 'receipt', 'clock'];
+---
+
+<section id="completion" aria-labelledby="completion-title" class="section border-y border-border bg-surface">
+  <div class="container-page">
+    <SectionHeading id="completion-title" eyebrow={c.eyebrow} title={c.title} />
+
+    <ol class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      {
+        c.steps.map((step, i) => (
+          <li class="reveal relative rounded-[var(--radius-card)] border border-border bg-bg p-7">
+            <div class="flex items-center justify-between">
+              <span class="num" aria-hidden="true">{i + 1}</span>
+              <Icon name={icons[i]} size={28} class="text-cobalt" />
+            </div>
+            <h3 class="mt-5 text-2xl">
+              <span class="sr-only">{i + 1}. </span>
+              {step.title}
+            </h3>
+            <p class="mt-2 text-muted">{step.text}</p>
+            {i < c.steps.length - 1 && (
+              <span aria-hidden="true" class="draw-arrow absolute -right-8 top-1/2 hidden w-8 -translate-y-1/2 justify-center text-cobalt lg:flex">
+                <Icon name="arrowRight" size={24} strokeWidth={2.2} />
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    <aside class="reveal mt-8 flex flex-col gap-5 rounded-[var(--radius-panel)] border-2 border-[#bfe23a] bg-lime-tint p-7 sm:flex-row sm:items-center sm:p-9" aria-labelledby="handoff-title">
+      <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-lime text-ink">
+        <Icon name="staff" size={32} />
+      </span>
+      <div>
+        <h3 id="handoff-title" class="text-2xl">{c.handoff.title}</h3>
+        <p class="mt-2 text-lg">{c.handoff.text}</p>
+      </div>
+    </aside>
+  </div>
+</section>

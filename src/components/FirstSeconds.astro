@@ -1,0 +1,77 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+
+const t = getDictionary();
+const f = t.firstSeconds;
+---
+
+<section id="accessibility" aria-labelledby="first-title" class="section bg-surface border-b border-border">
+  <div class="container-page">
+    <SectionHeading id="first-title" eyebrow={f.eyebrow} title={f.title} />
+
+    <!-- Key rule: the ethical core of the product, given visual weight. -->
+    <aside
+      class="reveal mt-10 rounded-[var(--radius-panel)] border-2 border-ink bg-lime-tint p-7 sm:p-10"
+      aria-labelledby="rule-label"
+    >
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+        <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-lime text-ink">
+          <Icon name="shield" size={34} />
+        </span>
+        <div>
+          <h3 id="rule-label" class="tag tag-lime !text-[0.9375rem]">{f.rule.label}</h3>
+          <p class="mt-4 text-[clamp(1.5rem,1.2rem+1.4vw,2.25rem)] font-bold leading-tight tracking-tight">{f.rule.text}</p>
+          <p class="mt-4 max-w-3xl text-lg text-muted">{f.rule.sub}</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="reveal mt-14">
+      <h3 class="text-xl">{f.timelineLabel}</h3>
+
+      <!-- Desktop track from t = 0 to t ≈ 15 s (decorative; the list below carries the meaning). -->
+      <div aria-hidden="true" class="relative mt-10 hidden h-3 md:block">
+        <div class="absolute inset-0 rounded-full bg-cobalt-tint"></div>
+        <div class="absolute inset-0 rounded-full" style="background: linear-gradient(90deg, var(--cobalt) 0 86%, var(--lime) 86% 100%)"></div>
+        {
+          [0, 20, 40, 60, 80, 100].map((pct, i) => (
+            <span class="absolute -top-8 -translate-x-1/2 text-sm font-semibold tabular-nums text-muted" style={`left:${pct}%`}>
+              {i * 3}s
+            </span>
+          ))
+        }
+        <span class="absolute left-0 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-surface bg-cobalt shadow-soft"></span>
+        <span class="absolute left-full top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-surface bg-lime text-ink shadow-soft">
+          <Icon name="speaker" size={20} />
+        </span>
+      </div>
+
+      <ol class="mt-8 grid gap-5 md:mt-10 md:grid-cols-2 md:gap-10">
+        {
+          f.points.map((pt) => {
+            const help = 'help' in pt && pt.help;
+            return (
+              <li
+                class:list={[
+                  'rounded-[var(--radius-card)] border p-7',
+                  help ? 'border-[#bfe23a] bg-lime-tint md:text-right' : 'border-border bg-bg',
+                ]}
+              >
+                <p class:list={['flex items-center gap-3', help && 'md:justify-end']}>
+                  <span class:list={['tag !text-base !normal-case !tracking-normal', help ? 'tag-lime' : '']}>
+                    <Icon name={help ? 'speaker' : 'clock'} size={18} />
+                    {pt.time}
+                  </span>
+                </p>
+                <h4 class="mt-4 text-2xl">{pt.title}</h4>
+                <p class="mt-3 text-muted">{pt.text}</p>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</section>

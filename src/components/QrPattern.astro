@@ -1,0 +1,45 @@
+---
+/**
+ * Decorative QR-like pattern (not a scannable code). Generated at build time
+ * from a fixed seed so it is stable between builds.
+ */
+interface Props {
+  size?: number | string;
+  class?: string;
+  color?: string;
+  seed?: number;
+}
+const { size = 120, class: className, color = 'var(--ink)', seed = 7 } = Astro.props;
+
+const N = 21;
+let s = seed;
+const rand = () => {
+  s = (s * 16807) % 2147483647;
+  return s / 2147483647;
+};
+const inFinder = (x: number, y: number) =>
+  (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
+
+const cells: string[] = [];
+for (let y = 0; y < N; y++) {
+  for (let x = 0; x < N; x++) {
+    if (!inFinder(x, y) && rand() > 0.52) cells.push(`M${x} ${y}h1v1h-1z`);
+  }
+}
+const finder = (x: number, y: number) =>
+  `M${x} ${y}h7v7h-7zM${x + 1} ${y + 1}v5h5v-5zM${x + 2} ${y + 2}h3v3h-3z`;
+const d = [finder(0, 0), finder(N - 7, 0), finder(0, N - 7), ...cells].join('');
+---
+
+<svg
+  viewBox={`-1 -1 ${N + 2} ${N + 2}`}
+  width={size}
+  height={size}
+  aria-hidden="true"
+  focusable="false"
+  class={className}
+  shape-rendering="crispEdges"
+>
+  <rect x="-1" y="-1" width={N + 2} height={N + 2} fill="#fff"></rect>
+  <path d={d} fill={color} fill-rule="evenodd"></path>
+</svg>

@@ -1,0 +1,58 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+
+const t = getDictionary();
+const l = t.language;
+const langs = t.demo.language.options;
+---
+
+<section id="language" aria-labelledby="lang-title" class="section">
+  <div class="container-page grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+    <div>
+      <SectionHeading id="lang-title" eyebrow={l.eyebrow} title={l.title} lead={l.lead} />
+
+      <div class="reveal mt-10">
+        <h3 class="text-xl">{l.firstUseTitle}</h3>
+        <ol class="mt-5 space-y-4">
+          {
+            l.firstUse.map((item, i) => (
+              <li class="flex gap-4">
+                <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h4 class="text-lg">{item.title}</h4>
+                  <p class="text-muted">{item.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="mt-8 flex items-start gap-3 rounded-2xl border border-border bg-surface p-5">
+          <Icon name="shield" class="mt-0.5 shrink-0 text-cobalt" />
+          <span>{l.note}</span>
+        </p>
+      </div>
+    </div>
+
+    <figure class="reveal card mx-auto w-full max-w-md p-7 sm:p-9">
+      <figcaption class="flex items-center gap-2 text-sm font-semibold text-muted">
+        <Icon name="speaker" size={20} class="text-cobalt" />
+        {l.promptCaption}
+      </figcaption>
+      <p class="mt-4 text-3xl font-bold tracking-tight">{l.promptTitle}</p>
+      <ul class="mt-6 space-y-3" aria-label={l.promptTitle}>
+        {
+          langs.map((o) => (
+            <li class="flex min-h-16 items-center gap-4 rounded-2xl border-2 border-border bg-bg px-5 text-xl font-semibold">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-cobalt text-sm font-bold text-white" aria-hidden="true">
+                {o.code}
+              </span>
+              <span lang={o.lang}>{o.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </figure>
+  </div>
+</section>

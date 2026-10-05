@@ -1,0 +1,25 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+
+const t = getDictionary();
+const q = t.questions;
+---
+
+<section id="questions" aria-labelledby="questions-title" class="section">
+  <div class="container-page">
+    <SectionHeading id="questions-title" eyebrow={q.eyebrow} title={q.title} lead={q.lead} />
+
+    <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        q.items.map((item, i) => (
+          <li class="reveal card flex flex-col p-7">
+            <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-5 text-2xl">{item.q}</h3>
+            <p class="mt-2 text-muted">{item.a}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

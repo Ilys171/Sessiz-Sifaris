@@ -1,0 +1,77 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+
+const t = getDictionary();
+const tp = t.twoPaths;
+---
+
+<section id="two-paths" aria-labelledby="paths-title" class="section border-y border-border bg-surface">
+  <div class="container-page">
+    <SectionHeading id="paths-title" eyebrow={tp.eyebrow} title={tp.title} lead={tp.lead} />
+
+    <div class="mt-12 grid gap-5 md:grid-cols-2">
+      {
+        tp.paths.map((path, i) => (
+          <article
+            class:list={[
+              'reveal relative flex flex-col rounded-[var(--radius-panel)] border p-7 sm:p-9',
+              i === 0 ? 'border-border bg-bg' : 'border-cobalt/30 bg-cobalt-tint',
+            ]}
+            aria-labelledby={`path-${i}`}
+          >
+            <p>
+              <span class:list={['tag', i === 1 && '!bg-cobalt !text-white']}>
+                <Icon name={i === 0 ? 'layers' : 'mic'} size={16} />
+                {path.tag}
+              </span>
+            </p>
+            <h3 id={`path-${i}`} class="mt-5 text-3xl">{path.title}</h3>
+            <p class="mt-3 text-muted">{path.text}</p>
+            <ul class="mt-6 space-y-2.5">
+              {path.points.map((pt) => (
+                <li class="flex items-start gap-3">
+                  <Icon name="check" size={22} class="mt-0.5 shrink-0 text-cobalt" strokeWidth={2.4} />
+                  <span>{pt}</span>
+                </li>
+              ))}
+            </ul>
+            {'commands' in path && path.commands && (
+              <div class="mt-6 border-t border-cobalt/20 pt-5">
+                <h4 class="text-base font-semibold">{path.commandsLabel}</h4>
+                <ul class="mt-3 flex flex-wrap gap-2">
+                  {path.commands.map((c) => (
+                    <li class="rounded-full border border-cobalt/30 bg-surface px-4 py-2 font-semibold text-cobalt-dark">{c}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Connectors (decorative) down to the shared data source. -->
+    <div aria-hidden="true" class="hidden grid-cols-2 md:grid">
+      <span class="mx-auto h-10 w-0.5 bg-cobalt/40"></span>
+      <span class="mx-auto h-10 w-0.5 bg-cobalt/40"></span>
+    </div>
+
+    <div class="reveal mt-5 rounded-[var(--radius-panel)] bg-cobalt p-6 text-white on-cobalt md:mt-0 sm:p-8">
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
+        <h3 class="flex shrink-0 items-center gap-3 text-xl">
+          <Icon name="database" size={28} />
+          {tp.sharedLabel}
+        </h3>
+        <ul class="flex flex-wrap gap-2.5">
+          {
+            tp.shared.map((s) => (
+              <li class="rounded-full bg-white/12 px-4 py-2 font-semibold ring-1 ring-white/40">{s}</li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

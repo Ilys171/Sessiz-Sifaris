@@ -1,0 +1,22 @@
+---
+import { getDictionary } from '../content';
+import Icon from './Icon.astro';
+
+const t = getDictionary();
+---
+
+<section aria-labelledby="cta-title" class="on-cobalt section">
+  <div class="container-page reveal flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
+    <div class="max-w-2xl">
+      <h2 id="cta-title" class="h2">{t.cta.title}</h2>
+      <p class="lead mt-5">{t.cta.text}</p>
+    </div>
+    <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+      <a href="#pilot-form" class="btn btn-lime">
+        {t.common.runPilot}
+        <Icon name="arrowRight" size={20} />
+      </a>
+      <a href="#demo" class="btn btn-on-cobalt">{t.demo.title}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon, { type IconName } from './Icon.astro';
+
+const t = getDictionary();
+const j = t.journey;
+
+const icons: IconName[] = ['qr', 'globe', 'user', 'ear', 'chat', 'cart', 'card', 'receipt'];
+
+// Desktop "snake": row 1 left → right, row 2 right → left. DOM order stays 1–8.
+const placement = [
+  'lg:row-start-1 lg:col-start-1',
+  'lg:row-start-1 lg:col-start-2',
+  'lg:row-start-1 lg:col-start-3',
+  'lg:row-start-1 lg:col-start-4',
+  'lg:row-start-2 lg:col-start-4',
+  'lg:row-start-2 lg:col-start-3',
+  'lg:row-start-2 lg:col-start-2',
+  'lg:row-start-2 lg:col-start-1',
+];
+const connector = (i: number) => {
+  if (i < 3) return { cls: 'top-1/2 -right-12 h-10 w-12 -translate-y-1/2', rotate: '' };
+  if (i === 3) return { cls: '-bottom-14 left-1/2 h-14 w-10 -translate-x-1/2', rotate: 'rotate-90' };
+  if (i < 7) return { cls: 'top-1/2 -left-12 h-10 w-12 -translate-y-1/2', rotate: 'rotate-180' };
+  return null;
+};
+---
+
+<section id="how-it-works" aria-labelledby="journey-title" class="section">
+  <div class="container-page">
+    <SectionHeading id="journey-title" eyebrow={j.eyebrow} title={j.title} lead={j.lead} />
+
+    <ol class="mt-14 grid gap-5 lg:grid-cols-4 lg:grid-rows-2 lg:gap-x-12 lg:gap-y-14">
+      {
+        j.steps.map((step, i) => {
+          const c = connector(i);
+          const help = 'help' in step && step.help;
+          return (
+            <li class:list={['reveal relative pl-14 lg:pl-0', placement[i]]}>
+              {/* mobile timeline line */}
+              {i < j.steps.length - 1 && (
+                <span aria-hidden="true" class="absolute left-[1.3125rem] top-[4.25rem] -bottom-5 w-0.5 rounded bg-border lg:hidden" />
+              )}
+              <span
+                aria-hidden="true"
+                class:list={['num absolute left-0 top-5 z-10 lg:left-6 lg:top-6', help && 'num-lime']}
+              >
+                {i + 1}
+              </span>
+              <div
+                class:list={[
+                  'h-full rounded-[var(--radius-card)] border p-6 shadow-soft lg:pt-20',
+                  help ? 'border-[#bfe23a] bg-lime-tint' : 'border-border bg-surface',
+                ]}
+              >
+                <Icon name={icons[i]} size={28} class="absolute right-6 top-6 hidden text-cobalt lg:block" />
+                <h3 class="text-xl">
+                  <span class="sr-only">{t.common.step} {i + 1}: </span>
+                  {step.title}
+                </h3>
+                <p class="mt-2 text-[1.0625rem] text-muted">{step.text}</p>
+                {help && (
+                  <p class="mt-4">
+                    <span class="tag tag-lime">
+                      <Icon name="ear" size={16} />
+                      {j.helpBadge}
+                    </span>
+                  </p>
+                )}
+              </div>
+              {c && (
+                <span aria-hidden="true" class:list={['draw-arrow absolute hidden items-center justify-center text-cobalt lg:flex', c.cls]}>
+                  <Icon name="arrowRight" size={28} strokeWidth={2.2} class={c.rotate} />
+                </span>
+              )}
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

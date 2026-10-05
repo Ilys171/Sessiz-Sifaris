@@ -1,0 +1,51 @@
+---
+import { getDictionary } from '../content';
+import SectionHeading from './SectionHeading.astro';
+import Icon, { type IconName } from './Icon.astro';
+
+const t = getDictionary();
+const p = t.pilot;
+const icons: IconName[] = ['parallel', 'access', 'repeat', 'scale'];
+---
+
+<section id="pilot" aria-labelledby="pilot-title" class="section">
+  <div class="container-page">
+    <SectionHeading id="pilot-title" eyebrow={p.eyebrow} title={p.title} />
+
+    <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        p.benefits.map((b, i) => (
+          <li class="reveal card p-7">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-cobalt-tint text-cobalt">
+              <Icon name={icons[i]} size={26} />
+            </span>
+            <h3 class="mt-5 text-xl">{b.title}</h3>
+            <p class="mt-2 text-[1.0625rem] text-muted">{b.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="reveal mt-10 grid gap-8 rounded-[var(--radius-panel)] border border-border bg-surface p-7 shadow-soft sm:p-10 lg:grid-cols-[1fr_1fr] lg:gap-12">
+      <div>
+        <h3 class="text-3xl">{p.measureTitle}</h3>
+        <ul class="mt-6 space-y-3">
+          {
+            p.measures.map((m) => (
+              <li class="flex items-center gap-3 rounded-xl bg-bg px-4 py-3 font-semibold">
+                <Icon name="clock" size={22} class="shrink-0 text-cobalt" />
+                {m}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="flex items-center">
+        <p class="flex w-full items-start gap-4 rounded-2xl border-2 border-cobalt bg-cobalt-tint p-6 text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-semibold leading-snug">
+          <Icon name="info" size={30} class="mt-0.5 shrink-0 text-cobalt" />
+          <span>{p.honesty}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
