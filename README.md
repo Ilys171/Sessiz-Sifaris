@@ -12,9 +12,10 @@ npm run preview
 ```
 
 ## Deploy
+- **GitHub Pages (live):** https://ilys171.github.io/Sessiz-Sifaris/ — `.github/workflows/deploy.yml` builds and deploys on every push to `main`. `site`/`base` in `astro.config.mjs` are set for this URL; use `import.meta.env.BASE_URL` for internal links.
 - **Netlify:** `netlify.toml` is included (build `npm run build`, publish `dist`).
 - **Vercel:** import the repo; the Astro preset is detected automatically.
-- Set `site` in `astro.config.mjs` to the production URL.
+- If hosting at a domain root instead, remove `base` and update `site` in `astro.config.mjs`.
 
 ## Where things live
 | What | File |

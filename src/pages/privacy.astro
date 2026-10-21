@@ -10,7 +10,7 @@ const p = t.privacyPage;
 ---
 
 <Base title={`${p.title} · ${t.common.productName}`}>
-  <Header base="/" />
+  <Header base={import.meta.env.BASE_URL} />
   <main id="main" tabindex="-1" class="section">
     <div class="container-page max-w-3xl">
       <h1 class="h2">{p.title}</h1>
@@ -26,7 +26,7 @@ const p = t.privacyPage;
         }
       </ul>
       <p class="mt-10">
-        <a href="/" class="btn btn-secondary">{p.back}</a>
+        <a href={import.meta.env.BASE_URL} class="btn btn-secondary">{p.back}</a>
       </p>
     </div>
   </main>

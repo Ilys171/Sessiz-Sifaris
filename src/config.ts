@@ -19,5 +19,5 @@ export const siteConfig = {
   aayahceUrl: '#',
 
   /** Path of the privacy policy page (currently a placeholder page). */
-  privacyPath: '/privacy/',
+  privacyPath: `${import.meta.env.BASE_URL}privacy/`,
 } as const;
