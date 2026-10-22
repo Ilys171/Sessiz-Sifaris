@@ -1,6 +1,6 @@
 # Səssiz Sifariş — website
 
-Landing page for **Səssiz Sifariş** ("Silent Order"), a universal mobile ordering concept for restaurants by AAYAHCE.
+Landing page for **Səssiz Sifariş** ("Silent Order"), a universal mobile ordering concept for restaurants.
 
 Astro + TypeScript + Tailwind CSS 4. Static output, no server needed.
 
@@ -22,7 +22,7 @@ npm run preview
 | --- | --- |
 | All visible text | `src/content/en.ts` |
 | Demo prices (illustrative) | `src/content/demo-menu.ts` |
-| Form endpoint, contact email, AAYAHCE link | `src/config.ts` |
+| Form endpoint, contact email | `src/config.ts` |
 | Design tokens (Cobalt & Lime) | `src/styles/global.css` (`:root` + `@theme`) |
 | Sections | `src/components/*.astro` |
 | Demo state machine | `src/scripts/demo.ts` |
@@ -30,7 +30,7 @@ npm run preview
 
 ## Placeholders to replace before launch
 - `siteConfig.formEndpoint` — empty: the form validates but does not send, and tells visitors to email instead. Any endpoint accepting a `FormData` POST works (e.g. Formspree).
-- `siteConfig.contactEmail`, `siteConfig.aayahceUrl`.
+- `siteConfig.contactEmail`.
 - Team (`about.team`), the photo placeholder in "For restaurants", and the privacy policy page (`src/pages/privacy.astro`).
 
 ## Adding Azerbaijani / Russian

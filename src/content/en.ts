@@ -13,7 +13,7 @@ export const en = {
     lang: 'en',
     title: 'Səssiz Sifariş: ordering from your phone, accessible to everyone',
     description:
-      'Səssiz Sifariş is a universal mobile ordering concept for restaurants. One QR code turns every phone into an extra ordering point, with a voice path for blind users. A project of AAYAHCE.',
+      'Səssiz Sifariş is a universal mobile ordering concept for restaurants. One QR code turns every phone into an extra ordering point, with a voice path for blind users.',
   },
 
   common: {
@@ -454,14 +454,12 @@ export const en = {
 
   about: {
     title: 'About',
-    text: 'Səssiz Sifariş is a project of AAYAHCE, a student-led American–Azerbaijani human-centered engineering initiative.',
-    aayahceFull: 'American–Azerbaijani Youth Association for Human-Centered Engineering',
-    aayahceLink: 'Visit the AAYAHCE website',
+    text: 'Səssiz Sifariş is a universal mobile ordering concept for restaurants: one QR code, a standard interface for everyone and a voice path for blind users. Results will be confirmed through a pilot with real users.',
     teamTitle: 'Team',
     team: '[Team members to be added]',
     privacy: 'Privacy policy',
     contact: 'Contact',
-    copyright: '© {year} AAYAHCE. Concept project.',
+    copyright: '© {year} Səssiz Sifariş. Concept project.',
   },
 
   privacyPage: {

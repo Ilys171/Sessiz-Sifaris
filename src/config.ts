@@ -15,9 +15,6 @@ export const siteConfig = {
   /** PLACEHOLDER: public contact address for pilot requests. */
   contactEmail: 'pilot@example.org',
 
-  /** PLACEHOLDER: AAYAHCE website. */
-  aayahceUrl: '#',
-
   /** Path of the privacy policy page (currently a placeholder page). */
   privacyPath: `${import.meta.env.BASE_URL}privacy/`,
 } as const;
